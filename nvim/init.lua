@@ -66,8 +66,8 @@ vim.opt.spell = true
 vim.opt.spelllang = 'en'
 
 -- Enable true colour support
-if fn.has('termguicolors') then
-  opt.termguicolors = true
+if vim.fn.has('termguicolors') then
+  vim.opt.termguicolors = true
 end
 
 -- Enable nerd font
