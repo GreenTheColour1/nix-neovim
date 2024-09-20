@@ -34,6 +34,14 @@ require('lualine').setup {
       -- nvim-navic
       { navic.get_location, cond = navic.is_available },
     },
+    lualine_y = {
+      {
+        'filename',
+        path = 1,
+        file_status = true,
+        newfile_status = true,
+      },
+    },
     lualine_z = {
       -- (see above)
       { extra_mode_status },
@@ -73,15 +81,15 @@ require('lualine').setup {
   --   lualine_y = {},
   --   lualine_z = {},
   -- },
-  winbar = {
-    lualine_z = {
-      {
-        'filename',
-        path = 1,
-        file_status = true,
-        newfile_status = true,
-      },
-    },
-  },
+  -- winbar = {
+  --   lualine_z = {
+  --     {
+  --       'filename',
+  --       path = 1,
+  --       file_status = true,
+  --       newfile_status = true,
+  --     },
+  --   },
+  -- },
   extensions = { 'fugitive', 'fzf', 'toggleterm', 'quickfix' },
 }

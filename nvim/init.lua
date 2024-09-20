@@ -44,6 +44,12 @@ opt.timeoutlen = 300
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
+-- Preview substitutions live, as you type!
+vim.opt.inccommand = 'split'
+
+-- Minimal number of screen lines to keep above and below the cursor.
+vim.opt.scrolloff = 10
+
 -- opt.lazyredraw = true
 -- opt.showmatch = true -- Highlight matching parentheses, etc
 -- opt.incsearch = true
@@ -64,55 +70,58 @@ opt.splitright = true
 opt.splitbelow = true
 -- opt.cmdheight = 0
 
+opt.showmode = false
+opt.cmdheight = 0;
+
 -- opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
 -- Configure Neovim diagnostic messages
 
--- local function prefix_diagnostic(prefix, diagnostic)
---   return string.format(prefix .. ' %s', diagnostic.message)
--- end
---
--- vim.diagnostic.config {
---   virtual_text = {
---     prefix = '',
---     format = function(diagnostic)
---       local severity = diagnostic.severity
---       if severity == vim.diagnostic.severity.ERROR then
---         return prefix_diagnostic('󰅚', diagnostic)
---       end
---       if severity == vim.diagnostic.severity.WARN then
---         return prefix_diagnostic('⚠', diagnostic)
---       end
---       if severity == vim.diagnostic.severity.INFO then
---         return prefix_diagnostic('ⓘ', diagnostic)
---       end
---       if severity == vim.diagnostic.severity.HINT then
---         return prefix_diagnostic('󰌶', diagnostic)
---       end
---       return prefix_diagnostic('■', diagnostic)
---     end,
---   },
---   signs = {
---     text = {
---       -- Requires Nerd fonts
---       [vim.diagnostic.severity.ERROR] = '󰅚',
---       [vim.diagnostic.severity.WARN] = '⚠',
---       [vim.diagnostic.severity.INFO] = 'ⓘ',
---       [vim.diagnostic.severity.HINT] = '󰌶',
---     },
---   },
---   update_in_insert = false,
---   underline = true,
---   severity_sort = true,
---   float = {
---     focusable = false,
---     style = 'minimal',
---     border = 'rounded',
---     source = 'if_many',
---     header = '',
---     prefix = '',
---   },
--- }
+local function prefix_diagnostic(prefix, diagnostic)
+  return string.format(prefix .. ' %s', diagnostic.message)
+end
+
+vim.diagnostic.config {
+  virtual_text = {
+    prefix = '',
+    format = function(diagnostic)
+      local severity = diagnostic.severity
+      if severity == vim.diagnostic.severity.ERROR then
+        return prefix_diagnostic('󰅚', diagnostic)
+      end
+      if severity == vim.diagnostic.severity.WARN then
+        return prefix_diagnostic('⚠', diagnostic)
+      end
+      if severity == vim.diagnostic.severity.INFO then
+        return prefix_diagnostic('ⓘ', diagnostic)
+      end
+      if severity == vim.diagnostic.severity.HINT then
+        return prefix_diagnostic('󰌶', diagnostic)
+      end
+      return prefix_diagnostic('■', diagnostic)
+    end,
+  },
+  signs = {
+    text = {
+      -- Requires Nerd fonts
+      [vim.diagnostic.severity.ERROR] = '󰅚',
+      [vim.diagnostic.severity.WARN] = '⚠',
+      [vim.diagnostic.severity.INFO] = 'ⓘ',
+      [vim.diagnostic.severity.HINT] = '󰌶',
+    },
+  },
+  update_in_insert = false,
+  underline = true,
+  severity_sort = true,
+  float = {
+    focusable = false,
+    style = 'minimal',
+    border = 'rounded',
+    source = 'if_many',
+    header = '',
+    prefix = '',
+  },
+}
 
 -- g.editorconfig = true
 
