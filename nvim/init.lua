@@ -1,51 +1,42 @@
--- [[ Setting options ]]
--- See `:help vim.opt`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
+local cmd = vim.cmd
+local fn = vim.fn
+local opt = vim.o
+local g = vim.g
 
--- Make line numbers default
-vim.opt.number = true
--- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
-vim.opt.relativenumber = true
+-- <leader> key. Defaults to `\`. Some people prefer space.
+g.mapleader = ' '
+g.maplocalleader = ' '
 
--- Enable mouse mode, can be useful for resizing splits for example!
-vim.opt.mouse = 'a'
+-- opt.compatible = false
 
--- Don't show the mode, since it's already in the status line
-vim.opt.showmode = false
+-- Enable true colour support
+if fn.has('termguicolors') then
+  opt.termguicolors = true
+end
 
--- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
+-- See :h <option> to see what the options do
 
--- Enable break indent
-vim.opt.breakindent = true
+-- Search down into subfolders
+-- opt.path = vim.o.path .. '**'
 
--- Save undo history
-vim.opt.undofile = true
+opt.number = true
+opt.relativenumber = true
+-- Show what line the cursor is on
+opt.cursorline = true
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
+opt.ignorecase = true
+opt.smartcase = true
 
 -- Keep signcolumn on by default
-vim.opt.signcolumn = 'yes'
+opt.signcolumn = 'yes'
 
 -- Decrease update time
-vim.opt.updatetime = 250
+opt.updatetime = 250
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
-vim.opt.timeoutlen = 300
-
--- Configure how new splits should be opened
-vim.opt.splitright = true
-vim.opt.splitbelow = true
+opt.timeoutlen = 300
 
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
@@ -53,24 +44,83 @@ vim.opt.splitbelow = true
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
--- Preview substitutions live, as you type!
-vim.opt.inccommand = 'split'
+-- opt.lazyredraw = true
+-- opt.showmatch = true -- Highlight matching parentheses, etc
+-- opt.incsearch = true
+-- opt.hlsearch = true
 
--- Show which line your cursor is on
-vim.opt.cursorline = true
+opt.spell = true
+opt.spelllang = 'en'
 
--- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 10
+-- opt.expandtab = true
+-- opt.tabstop = 2
+-- opt.softtabstop = 2
+-- opt.shiftwidth = 2
+-- opt.foldenable = true
+-- opt.history = 2000
+-- opt.nrformats = 'bin,hex' -- 'octal'
+opt.undofile = true
+opt.splitright = true
+opt.splitbelow = true
+-- opt.cmdheight = 0
 
-vim.opt.spell = true
-vim.opt.spelllang = 'en'
+-- opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
--- Enable true colour support
-if vim.fn.has('termguicolors') then
-  vim.opt.termguicolors = true
-end
+-- Configure Neovim diagnostic messages
 
--- Enable nerd font
-vim.g.have_nerd_font = true
+-- local function prefix_diagnostic(prefix, diagnostic)
+--   return string.format(prefix .. ' %s', diagnostic.message)
+-- end
+--
+-- vim.diagnostic.config {
+--   virtual_text = {
+--     prefix = '',
+--     format = function(diagnostic)
+--       local severity = diagnostic.severity
+--       if severity == vim.diagnostic.severity.ERROR then
+--         return prefix_diagnostic('󰅚', diagnostic)
+--       end
+--       if severity == vim.diagnostic.severity.WARN then
+--         return prefix_diagnostic('⚠', diagnostic)
+--       end
+--       if severity == vim.diagnostic.severity.INFO then
+--         return prefix_diagnostic('ⓘ', diagnostic)
+--       end
+--       if severity == vim.diagnostic.severity.HINT then
+--         return prefix_diagnostic('󰌶', diagnostic)
+--       end
+--       return prefix_diagnostic('■', diagnostic)
+--     end,
+--   },
+--   signs = {
+--     text = {
+--       -- Requires Nerd fonts
+--       [vim.diagnostic.severity.ERROR] = '󰅚',
+--       [vim.diagnostic.severity.WARN] = '⚠',
+--       [vim.diagnostic.severity.INFO] = 'ⓘ',
+--       [vim.diagnostic.severity.HINT] = '󰌶',
+--     },
+--   },
+--   update_in_insert = false,
+--   underline = true,
+--   severity_sort = true,
+--   float = {
+--     focusable = false,
+--     style = 'minimal',
+--     border = 'rounded',
+--     source = 'if_many',
+--     header = '',
+--     prefix = '',
+--   },
+-- }
 
--- vim: ts=2 sts=2 sw=2 et
+-- g.editorconfig = true
+
+-- vim.opt.colorcolumn = '100'
+
+-- Native plugins
+cmd.filetype('plugin', 'indent', 'on')
+cmd.packadd('cfilter') -- Allows filtering the quickfix list with :cfdo
+
+-- let sqlite.lua (which some plugins depend on) know where to find sqlite
+vim.g.sqlite_clib_path = require('luv').os_getenv('LIBSQLITE')
